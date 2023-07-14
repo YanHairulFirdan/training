@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Crete+Round&family=Diphylleia&family=IBM+Plex+Serif:wght@300&family=Montserrat+Alternates:wght@700&family=Montserrat:wght@500;600&family=Noticia+Text:wght@700&display=swap');
+
+/*
+font-family: 'Diphylleia', serif; Title;Header.
+font-family: 'Noticia Text', serif; Important Text;Price.
+font-family: 'IBM Plex Serif', serif; Long Text; Description.
+*/
+
+.detail-price{
+    color: #A0C49D;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'IBM Plex Serif', serif;
+}
+
+p, h5{
+    font-family: 'Noticia Text', serif;
+}
+.btn{
+    font-family: 'IBM Plex Serif', serif;
+}
+
+ /* Customize the accordion header */
+ .accordion-button {
+    background-color: #f8f9fa;
+    color: #000;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  /* Hover effect for the accordion header */
+  .accordion-button:hover {
+    background-color: #e9ecef;
+  }
+
+  /* Active (expanded) accordion header */
+  .accordion-button:not(.collapsed) {
+    background-color: #f1f3f5;
+  }
+
+  /* Customize the accordion body */
+  .accordion-body {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    padding: 1rem;
+  }

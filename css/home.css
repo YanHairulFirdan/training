@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Crete+Round&family=Diphylleia&family=IBM+Plex+Serif:wght@300&family=Montserrat+Alternates:wght@700&family=Montserrat:wght@500;600&family=Noticia+Text:wght@700&display=swap');
+
+/*
+font-family: 'Diphylleia', serif; Title;Header.
+font-family: 'Noticia Text', serif; Important Text;Price.
+font-family: 'IBM Plex Serif', serif; Long Text; Description.
+*/
+
+.card-link{
+    text-decoration: none;
+}
+.modal-title{
+    font-family: 'IBM Plex Serif', serif;
+}

@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Crete+Round&family=Diphylleia&family=IBM+Plex+Serif:wght@300&family=Montserrat+Alternates:wght@700&family=Montserrat:wght@500;600&family=Noticia+Text:wght@700&display=swap');
+
+/*
+font-family: 'Diphylleia', serif; Title;Header.
+font-family: 'Noticia Text', serif; Important Text;Price.
+font-family: 'IBM Plex Serif', serif; Long Text; Description.
+
+#34a0a4
+#82D9DC
+aliceblue
+#34A47F
+#7DE1A5
+#383932
+*/
+
+.navbar-brand {
+  font-family: 'Diphylleia', serif;
+  font-weight: bold;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Diphylleia', serif;
+}
+
+p, a, label, button, text, table{
+  font-family: 'IBM Plex Serif', serif;
+}
+
+.card-text {
+  font-family: 'Noticia Text', serif;
+}
+
+footer {
+  background-color: #34a0a4;
+  color: aliceblue;
+  padding: 20px 0;
+}
+
+footer h4 {
+  font-family: 'Diphylleia', serif;
+  font-weight: bold;
+}
+
+.footer-list {
+  list-style: none;
+  padding: 0;
+  font-family: 'IBM Plex Serif', serif;
+}
+
+.footer-list a {
+  color: aliceblue;
+  text-decoration: none;
+}
+
+.footer-socials a {
+  color: aliceblue;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+.full-page {
+  min-height: 70vh;
+}
+
+.collapse {
+  font-family: 'IBM Plex Serif', serif;
+}
+
