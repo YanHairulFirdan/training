@@ -5,38 +5,13 @@ $errors = [];
 
 if (count($_POST) > 0) {
     $validationRules = [
-        'image' => ['required'],
-        'name' => ['required'],
-        'price' => ['required'],
-        'description' => ['required'],
+        'image' => ['required', 'is_valid_url'],
+        'name'  => ['required', 'min_length:5', 'max_length:100'],
+        'price' => ['required', 'min_value:1000'],
+        'description' => ['required', 'min_length:10', 'max_length:1000'],
     ];
-    if (! required($_POST['image'])) {
-        $errors['image'][] = 'Image is required';
-    }
-    
-    if (! is_valid_url($_POST['image'])) {
-        $errors['image'][] = 'Image url is invalid';
-    }
 
-    if (! required($_POST['name'])) {
-        $errors['name'][] = 'Name is required';
-    }
-    
-    if (! min_length($_POST['name'], 5)) {
-        $errors['name'][] = 'Name must be at least 5 characters';
-    }
-    
-    if (! max_length($_POST['name'], 100)) {
-        $errors['name'][] = 'Name must be at least 5 characters';
-    }
-
-    if (! required($_POST['price'])) {
-        $errors['price'][] = 'Price is required';
-    }
-
-    if (! required($_POST['description'])) {
-        $errors['description'][] = 'Description is required';
-    }
+    $errors = form_validation($_POST, $validationRules);
 }
 ?>
 

@@ -1,64 +1,81 @@
 <?php
 
 if (!function_exists('required')) {
-    function required($value)
+    function required($value, $fieldName)
     {
-        return $value != '';
+        if ($value === '') {
+            return "{$fieldName} is required";
+        }
+
+        return '';
     }
 }
 
 if (!function_exists('is_valid_url')) {
-    function is_valid_url($url)
+    function is_valid_url($url, $fieldName)
     {
-        return filter_var($url, FILTER_VALIDATE_URL);
+        if (! filter_var($url, FILTER_VALIDATE_URL)) {
+            return "{$fieldName} is not valid url";
+        }
+
+        return '';
     }
 }
 
 if (!function_exists('min_length')) {
-    function min_length($value, $minLength)
+    function min_length($value, $fieldName, $minLength)
     {
-        return strlen($value) >= $minLength;
+        if (strlen($value) < $minLength) {
+            return "{$fieldName} must be at least {$minLength} characters";
+        }
+
+        return '';
     }
 }
 
 if (!function_exists('max_length')) {
-    function max_length($value, $maxLength)
+    function max_length($value, $fieldName, $maxLength)
     {
-        return strlen($value) <= $maxLength;
+        if (strlen($value) > $maxLength) {
+            return "{$fieldName} must be at most {$maxLength} characters";
+        }
+
+        return '';
     }
 }
 
 if (!function_exists('min_value')) {
-    function min_value($value, $min)
+    function min_value($value, $fieldName, $min)
     {
-        return $value >= $min;
+        if($value < $min){
+            return "{$fieldName} must be at least {$min}";
+        }
+
+        return '';
     }
 }
 
-if (!function_exists('form_validation')) {
-    function form_validation($inputs, $validators)
+if(!function_exists('form_validation')) {
+    function form_validation($inputs, $rules) 
     {
         $errors = [];
 
-        foreach ($inputs as $fieldname => $input) {
-            foreach ($validators[$fieldname] as $rule) {
-                try {
-                    if (str_contains($rule, ':')) {
-                        [$ruleName, $ruleArgs] = explode(':', $rule);
-                        $errorMessage = call_user_func_array($ruleName, [$fieldname, $input, $ruleArgs]);
-                    } else {
-                        $errorMessage = call_user_func_array($rule, [$fieldname, $input]);
-                    }
-                } catch (\Throwable $th) {
-                    throw $th;
+        foreach($inputs as $fieldInput => $input){
+            foreach ($rules[$fieldInput] as $rule) {
+                if (strpos($rule, ':')) {
+                    [$rule, $argument] = explode(':', $rule);
+
+                    $error = call_user_func($rule, $input, $fieldInput, $argument);
+                } else {
+                    $error = call_user_func($rule, $input, $fieldInput); 
                 }
 
-                if ($errorMessage !== '') {
-                    $errors[$fieldname][] = $errorMessage;
-                }
+               if($error !== ''){
+                    $errors[$fieldInput][] = $error;
+               }
             }
         }
 
         return $errors;
-    }
+    }   
 }
