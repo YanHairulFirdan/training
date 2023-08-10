@@ -1,7 +1,9 @@
 <?php
 require_once "../libs/validation.php";
+require_once "../libs/database.php";
 
 $errors = [];
+$actionResult = '';
 
 if (count($_POST) > 0) {
     $validationRules = [
@@ -12,6 +14,24 @@ if (count($_POST) > 0) {
     ];
 
     $errors = form_validation($_POST, $validationRules);
+
+    if (count($errors) === 0) {
+        $query = "INSERT INTO products (`name`, `description`, `price`, `image`) " 
+        . "VALUES (
+            '{$_POST['name']}',
+            '{$_POST['description']}',
+            '{$_POST['price']}',
+            '{$_POST['image']}'
+        )";
+
+        $result = mysqli_query($connection, $query);
+
+        if ($result) {
+            // header('Location: index.php');
+        } else {            
+            $actionResult = 'Cannot store the data, Something went wrong';
+        }
+    }
 }
 ?>
 
@@ -55,6 +75,9 @@ if (count($_POST) > 0) {
                         <div class="card-body">
                             <h4 class="text-center mb-4">Add Product</h4>
                             <form action="create-product.php?" method="post">
+                                <div role="alert" class="alert alert-danger">
+                                    <?= $actionResult ?>
+                                </div>
                                 <div class="mb-3">
                                     <label for="inputImage" class="form-label">Image URL</label>
                                     <input type="text" class="form-control" id="inputImage" name="image" placeholder="insert your image url">
