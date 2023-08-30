@@ -16,15 +16,7 @@ if (count($_POST) > 0) {
     $errors = form_validation($_POST, $validationRules);
 
     if (count($errors) === 0) {
-        $query = "INSERT INTO products (`name`, `description`, `price`, `image`) " 
-        . "VALUES (
-            '{$_POST['name']}',
-            '{$_POST['description']}',
-            '{$_POST['price']}',
-            '{$_POST['image']}'
-        )";
-
-        $result = mysqli_query($connection, $query);
+        $result = insert_data($connection, 'products', $_POST);
 
         if ($result) {
             // header('Location: index.php');
