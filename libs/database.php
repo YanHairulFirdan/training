@@ -85,6 +85,7 @@ function make_binding_statement(array $data) {
   return implode(",", $bindings);
 }
 
+
 function get_all_data($table, $columns = "*")
 {
   global $connection;
@@ -93,11 +94,5 @@ function get_all_data($table, $columns = "*")
 
   $result = mysqli_query($connection, $query);
 
-  $data = [];
-
-  while ($row = mysqli_fetch_assoc($result)) {
-    $data[] = $row;
-  }
-
-  return $data;
+  return $result;
 }
