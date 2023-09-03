@@ -82,3 +82,20 @@ function make_binding_statement(array $data) {
   // contoh [?, ?, ?, ?] -> "?, ?, ?, ?"
   return implode(",", $bindingStatement);
 }
+
+function get_all_data($table, $columns = "*")
+{
+  global $connection;
+
+  $query = "SELECT {$columns} FROM `{$table}`";
+
+  $result = mysqli_query($connection, $query);
+
+  $data = [];
+
+  while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+  }
+
+  return $data;
+}
