@@ -72,13 +72,21 @@ function get_values_type_binding($values) {
 }
 
 function make_binding_statement(array $data) {
-  $bindingStatement = [];
-
-  for ($i = 0; $i < count($data); $i++) { 
-    $bindingStatement[$i] = "?";
-  }
+  // membuat array yang berisi "?" sebanyak jumlah data
+  $bindingStatement = array_fill(0, count($data), "?");
 
   // mengubah array menjadi string
   // contoh [?, ?, ?, ?] -> "?, ?, ?, ?"
   return implode(",", $bindingStatement);
+}
+
+function get_all_data($table, $columns = "*")
+{
+  global $connection;
+
+  $query = "SELECT {$columns} FROM `{$table}`";
+
+  $result = mysqli_query($connection, $query);
+
+  return $result;
 }
