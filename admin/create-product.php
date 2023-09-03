@@ -16,7 +16,7 @@ if (count($_POST) > 0) {
     $errors = form_validation($_POST, $validationRules);
 
     if (count($errors) === 0) {
-        $result = insert_data($connection, 'products', $_POST);
+        $result = insert_data('products', $_POST);
 
         if ($result) {
             // header('Location: index.php');
