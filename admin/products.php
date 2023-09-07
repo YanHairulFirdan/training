@@ -1,8 +1,11 @@
 <?php
 require_once "../libs/database.php";
+require_once "../libs/pagination.php";
 
 try {
-    $products = get_all_data('products');
+    $currentPage = intval($_GET["page"] ?? 1);
+    $perPage = 10;
+    $products = get_paginated_data('products', '*', $perPage, $currentPage);
 } catch (\Throwable $th) {
     die($th->getMessage());
 }
@@ -66,7 +69,8 @@ try {
                                 <?php while ($product = mysqli_fetch_assoc($products)) : ?>
                                     <tr>
                                         <td>
-                                            <?= ++$index ?>
+                                            <?= make_pagination_numbering($perPage, $currentPage, $index) ?>
+                                            <?php $index++ ?>
                                         </td>
                                         <td>
                                             <?= $product['name'] ?>
@@ -79,11 +83,11 @@ try {
                                             <a href="product-form.html" class="btn btn-outline-warning btn-sm">Edit</a>
                                             <button class="btn btn-outline-danger btn-sm">Delete</button>
 
-                                            <div class="modal fade" id="product-<?= $product['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="product-<?= $product['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel-<?= $product['id'] ?>" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-scrollable">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h2 class="modal-title fs-5" id="exampleModalLabel">
+                                                            <h2 class="modal-title fs-5" id="exampleModalLabel-<?= $product['id'] ?>">
                                                                 <?= $product['name'] ?>
                                                             </h2>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -112,23 +116,7 @@ try {
                 </div>
             </div>
 
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <?= build_pagination(100, $perPage, $currentPage) ?>
         </div>
     </main>
     <!-- main end -->

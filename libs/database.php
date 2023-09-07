@@ -90,3 +90,56 @@ function get_all_data($table, $columns = "*")
 
   return $result;
 }
+
+function build_select_query($table, $column, $constraints = [])
+{
+  $query = "SELECT {$column} FROM `{$table}`";
+
+  if (count($constraints) === 0) {
+    return $query;
+  }
+
+  $query .= " WHERE ";
+
+  // var_dump($constraints);
+  // die;
+
+  foreach ($constraints as $constraint) {
+    $query .= implode(' ', array_values($constraint)) . " ";
+  }
+
+  return $query;
+
+  // contoh constraint
+  /**
+   * [
+   *  [
+   *    "column" => "name",
+   *    "value"  => "john",
+   *    "operator" => "=",
+   *    "boolean" => "OR"
+   *  ]
+   * ]
+   *
+   */
+
+
+}
+
+function get_paginated_data($table, $column, $perPage = 10, $page = 1)
+{
+  global $connection;
+
+  $offset = calculate_pagination_offset($perPage, $page);
+
+  $query = "SELECT {$column} FROM `{$table}` LIMIT {$offset}, {$perPage}";
+
+  $result = mysqli_query($connection, $query);
+
+  return $result;
+}
+
+function calculate_pagination_offset($perPage, $page)
+{
+  return ($page - 1) * $perPage;
+}
