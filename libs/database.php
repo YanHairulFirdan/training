@@ -20,6 +20,10 @@ function insert_data($table, $data)
   // menyatukan nama kolom menjadi string
   // contoh: ['name', 'price', 'description'] menjadi "(`name`, `price`, `description)`"
   $colums = implode_column_names(array_keys($data));
+  // echo "<pre>";
+  // var_dump($data);
+  // echo "</pre>";
+  // die;
   // membuat binding statement
   // contoh: "(?, ?, ?)"
   $bindingStatement = make_binding_statement($data);
@@ -31,9 +35,6 @@ function insert_data($table, $data)
   $query  = "INSERT INTO `{$table}` ({$colums}) VALUES ({$bindingStatement})";
 
   $preparedStatement = mysqli_prepare($connection, $query);
-
-  // menggabungkan binding type dengan data menggunakan spread operator
-  // contoh: mysqli_stmt_bind_param($preparedStatement, "sss", $data['name'], $data['price'], $data['description']);
   mysqli_stmt_bind_param($preparedStatement, $valuesType, ...array_values($data));
 
   $result = mysqli_stmt_execute($preparedStatement);
@@ -53,7 +54,7 @@ function implode_column_names($columns)
 
   // ubah array ["`name`", "`price`", "`description`", "`image`"]
   // menjadi "`name`, `price`, `description`, `image`"
-  return implode(",", $columns);
+  return implode(",", $columNames);
 }
 
 function get_values_type_binding($values) {
@@ -61,10 +62,15 @@ function get_values_type_binding($values) {
   
   foreach ($values as $index => $value) {
     // $type bisa berisi "string", "integer", "float" dll
-    $type = gettype($value);
     // kita hanya perlu mengambil huruf pertama dari nama type sebuah value
     // misal "string" -> kita hanya butuh "s"
-    $valuesType[$index] = $type[0];
+    $type = gettype($value);
+
+    if ($type === "float") {
+      $valuesType[$index] = "d";
+    } else {
+      $valuesType[$index] = $type[0];
+    }
   }
 
   // ubah array dari type2 value [s, s, s, s] menjadi "ssss"
@@ -72,15 +78,11 @@ function get_values_type_binding($values) {
 }
 
 function make_binding_statement(array $data) {
-  $bindingStatement = [];
-
-  for ($i = 0; $i < count($data); $i++) { 
-    $bindingStatement[$i] = "?";
-  }
-
-  // mengubah array menjadi string
-  // contoh [?, ?, ?, ?] -> "?, ?, ?, ?"
-  return implode(",", $bindingStatement);
+  // ["?", "?", "?", "?"]
+  $bindings = array_fill(0, count($data), "?");
+  
+  // "?", "?", "?", "?"
+  return implode(",", $bindings);
 }
 
 function get_all_data($table, $columns = "*")
