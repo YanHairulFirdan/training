@@ -130,16 +130,11 @@ function get_paginated_data($table, $column, $perPage = 10, $page = 1)
 {
   global $connection;
 
-  $offset = calculate_pagination_offset($perPage, $page);
+  $offset = ($page - 1) * $perPage;
 
   $query = "SELECT {$column} FROM `{$table}` LIMIT {$offset}, {$perPage}";
 
   $result = mysqli_query($connection, $query);
 
   return $result;
-}
-
-function calculate_pagination_offset($perPage, $page)
-{
-  return ($page - 1) * $perPage;
 }
