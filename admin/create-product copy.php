@@ -1,12 +1,9 @@
 <?php
 require_once "../libs/validation.php";
 require_once "../libs/database.php";
-require_once "../libs/helpers.php";
 
 $errors = [];
 $actionResult = '';
-$hostName = $_SERVER;
-dd(root_path());
 
 if (count($_POST) > 0) {
     $validationRules = [
@@ -22,7 +19,7 @@ if (count($_POST) > 0) {
         $result = insert_data('products', $_POST);
 
         if ($result) {
-            header('Location: ');
+            header('Location: index.php');
         } else {            
             $actionResult = 'Cannot store the data, Something went wrong';
         }
